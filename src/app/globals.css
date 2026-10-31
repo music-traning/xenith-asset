@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    background-color: #0f172a; /* slate-900 */
+    color: #f8fafc; /* slate-50 */
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "palt" 1, "kern" 1;
+  }
+
+  body {
+    @apply bg-slate-900 text-slate-50 font-sans font-normal selection:bg-custom-gold/30 selection:text-custom-gold-light overflow-x-hidden;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-serif font-semibold tracking-tight text-slate-50;
+  }
+}
+
+@layer components {
+  /* 4-4. Glassmorphism 共通サーフェス定義 */
+  .glass-panel {
+    @apply bg-slate-800/40 backdrop-blur-md border border-slate-700/50 shadow-glass;
+  }
+
+  .glass-panel-interactive {
+    @apply bg-slate-800/40 backdrop-blur-md border border-slate-700/50 shadow-glass transition-all duration-300 ease-in-out hover:border-custom-gold hover:shadow-gold-glow;
+  }
+
+  /* 落ち着いたシャンパンゴールド (#C6A87C / #E0CFA7 / #A38558) のテキストグラデーション */
+  .text-gold-shimmer {
+    @apply bg-gradient-to-r from-custom-gold-light via-custom-gold to-custom-gold-dark bg-clip-text text-transparent;
+  }
+
+  /* シャンパンゴールドのCTAグラデーション背景 */
+  .bg-champagne-gold {
+    @apply bg-gradient-to-r from-custom-gold-light via-custom-gold to-custom-gold-dark;
+  }
+}

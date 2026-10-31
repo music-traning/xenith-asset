@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360" fill="none">
+  <rect width="640" height="360" rx="16" fill="#020617"/>
+  <rect x="1" y="1" width="638" height="358" rx="15" stroke="#334155" stroke-opacity="0.5"/>
+  <circle cx="320" cy="170" r="165" fill="url(#chiyodaGlow)" fill-opacity="0.22"/>
+  <g stroke="#C6A87C" stroke-width="1.5">
+    <rect x="190" y="44" width="260" height="256" fill="#0f172a" fill-opacity="0.9"/>
+    <line x1="190" y1="88" x2="450" y2="88" stroke-opacity="0.6"/>
+    <line x1="190" y1="132" x2="450" y2="132" stroke-opacity="0.6"/>
+    <line x1="190" y1="176" x2="450" y2="176" stroke-opacity="0.6"/>
+    <line x1="190" y1="220" x2="450" y2="220" stroke-opacity="0.6"/>
+    <line x1="190" y1="264" x2="450" y2="264" stroke-opacity="0.6"/>
+    <line x1="320" y1="44" x2="320" y2="300" stroke-opacity="0.45"/>
+  </g>
+  <rect x="208" y="56" width="96" height="20" fill="#E0CFA7" fill-opacity="0.32"/>
+  <rect x="336" y="56" width="96" height="20" fill="#E0CFA7" fill-opacity="0.26"/>
+  <rect x="208" y="100" width="96" height="20" fill="#C6A87C" fill-opacity="0.24"/>
+  <rect x="336" y="100" width="96" height="20" fill="#C6A87C" fill-opacity="0.32"/>
+  <rect x="208" y="144" width="96" height="20" fill="#C6A87C" fill-opacity="0.2"/>
+  <rect x="336" y="144" width="96" height="20" fill="#C6A87C" fill-opacity="0.22"/>
+  <line x1="110" y1="300" x2="530" y2="300" stroke="#E0CFA7" stroke-width="2"/>
+  <defs>
+    <radialGradient id="chiyodaGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(320 170) rotate(90) scale(165)">
+      <stop stop-color="#C6A87C"/>
+      <stop offset="1" stop-color="#020617" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>
