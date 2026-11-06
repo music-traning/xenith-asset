@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { Reveal } from '@/components/ui/Reveal';
 
 export interface SectionHeadingProps {
   readonly id?: string;
@@ -14,9 +14,7 @@ export interface SectionHeadingProps {
 
 /**
  * 4-1 / 4-2 / 5-2. 共通UIコンポーネント: SectionHeading
- * - 見出し(h2): Noto Serif JP + Cormorant Garamond (font-serif font-semibold text-slate-50)
- * - サブテキスト(p): Noto Sans JP + Inter (font-sans font-normal text-slate-400)
- * - アニメーション: 無言の自信を感じさせる静かなフェードイン (duration: 0.8, ease: "easeOut")
+ * 強制リフローを起こさない非同期 IntersectionObserver による静謐なフェードイン
  */
 export const SectionHeading: React.FC<SectionHeadingProps> = ({
   id,
@@ -30,13 +28,7 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
     align === 'center' ? 'mx-auto max-w-3xl text-center' : 'max-w-3xl text-left';
 
   return (
-    <motion.header
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.35 }}
-      transition={{ duration: 0.8, ease: 'easeOut' }}
-      className={`${alignClasses} ${className}`.trim()}
-    >
+    <Reveal as="header" className={`${alignClasses} ${className}`.trim()}>
       <p className="font-serif text-xs font-medium uppercase tracking-[0.28em] text-custom-gold">
         {eyebrowEn}
       </p>
@@ -51,6 +43,6 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
           {description}
         </p>
       ) : null}
-    </motion.header>
+    </Reveal>
   );
 };

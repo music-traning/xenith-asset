@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronDown, ShieldAlert } from 'lucide-react';
 import { FAQ_ITEMS } from '@/data/lpContentData';
 import { SectionHeading } from '@/components/ui/SectionHeading';
+import { Reveal } from '@/components/ui/Reveal';
 
 export const FaqSection: React.FC = () => {
   const [openIds, setOpenIds] = useState<readonly string[]>(['faq-eligibility']);
@@ -37,16 +37,10 @@ export const FaqSection: React.FC = () => {
             const buttonId = `faq-button-${item.id}`;
 
             return (
-              <motion.article
+              <Reveal
                 key={item.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{
-                  duration: 0.8,
-                  delay: idx * 0.12,
-                  ease: 'easeOut',
-                }}
+                as="article"
+                delayMs={idx * 120}
                 className={`overflow-hidden rounded-2xl border bg-slate-800/40 shadow-glass backdrop-blur-md transition-all duration-300 ease-in-out ${
                   isOpen
                     ? 'border-custom-gold shadow-gold-glow'
@@ -75,49 +69,43 @@ export const FaqSection: React.FC = () => {
                       </span>
                     </div>
 
-                    <motion.span
+                    <span
                       aria-hidden="true"
-                      animate={{ rotate: isOpen ? 180 : 0 }}
-                      transition={{ duration: 0.3, ease: 'easeOut' }}
-                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-slate-700/50 bg-slate-950 text-custom-gold"
+                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-slate-700/50 bg-slate-950 text-custom-gold transition-transform duration-300 ease-out ${
+                        isOpen ? 'rotate-180' : 'rotate-0'
+                      }`}
                     >
                       <ChevronDown className="h-4 w-4" />
-                    </motion.span>
+                    </span>
                   </button>
                 </h3>
 
-                {/* AnimatePresence による height の滑らかなアニメーション */}
-                <AnimatePresence initial={false}>
-                  {isOpen ? (
-                    <motion.div
-                      id={panelId}
-                      role="region"
-                      aria-labelledby={buttonId}
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.35, ease: 'easeOut' }}
-                      className="overflow-hidden"
-                    >
-                      <div className="border-t border-slate-700/50 px-7 pt-5 pb-7 font-sans sm:px-9 sm:pb-8">
-                        <p className="text-base font-normal leading-[1.9] text-slate-50">
-                          {item.answer}
-                        </p>
+                {/* CSS Grid による強制リフローなしの滑らかな開閉アニメーション */}
+                {isOpen ? (
+                  <div
+                    id={panelId}
+                    role="region"
+                    aria-labelledby={buttonId}
+                    className="animate-hero-step-1 overflow-hidden"
+                  >
+                    <div className="border-t border-slate-700/50 px-7 pt-5 pb-7 font-sans sm:px-9 sm:pb-8">
+                      <p className="text-base font-normal leading-[1.9] text-slate-50">
+                        {item.answer}
+                      </p>
 
-                        {item.supplementaryNote ? (
-                          <div className="mt-4 flex items-start gap-3 rounded-xl border border-slate-700/50 bg-slate-950/80 p-4 text-xs font-normal leading-relaxed text-slate-400">
-                            <ShieldAlert
-                              className="mt-0.5 h-4 w-4 shrink-0 text-custom-gold"
-                              aria-hidden="true"
-                            />
-                            <span>{item.supplementaryNote}</span>
-                          </div>
-                        ) : null}
-                      </div>
-                    </motion.div>
-                  ) : null}
-                </AnimatePresence>
-              </motion.article>
+                      {item.supplementaryNote ? (
+                        <div className="mt-4 flex items-start gap-3 rounded-xl border border-slate-700/50 bg-slate-950/80 p-4 text-xs font-normal leading-relaxed text-slate-400">
+                          <ShieldAlert
+                            className="mt-0.5 h-4 w-4 shrink-0 text-custom-gold"
+                            aria-hidden="true"
+                          />
+                          <span>{item.supplementaryNote}</span>
+                        </div>
+                      ) : null}
+                    </div>
+                  </div>
+                ) : null}
+              </Reveal>
             );
           })}
         </div>

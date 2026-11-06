@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { AnimatePresence, motion } from 'framer-motion';
 import {
   Activity,
   ArrowUpRight,
@@ -28,6 +27,7 @@ import {
 } from '@/data/lpContentData';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { SectionHeading } from '@/components/ui/SectionHeading';
+import { Reveal } from '@/components/ui/Reveal';
 import { triggerApplicationModal } from '@/components/modals/ApplicationModal';
 import type { TransactionStatus } from '@/types/xenith';
 
@@ -321,13 +321,7 @@ export const DashboardMockup: React.FC = () => {
         />
 
         {/* SaaS ダッシュボード画面モックアップ本体 */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.15 }}
-          transition={{ duration: 0.8, delay: 0.15, ease: 'easeOut' }}
-          className="mt-14 lg:mt-20"
-        >
+        <Reveal delayMs={150} className="mt-14 lg:mt-20">
           <GlassCard
             as="article"
             className="overflow-hidden border-slate-700/50 bg-slate-800/40"
@@ -475,20 +469,16 @@ export const DashboardMockup: React.FC = () => {
                 </div>
               </aside>
 
-              {/* Phase 2-3: 右側メインエリア（AnimatePresence による動的コンテンツ切り替え: y: 10 -> 0, opacity: 0 -> 1） */}
+              {/* Phase 2-3: 右側メインエリア（CSSアニメーションによる動的コンテンツ切り替え） */}
               <div className="min-h-[680px] p-5 font-sans sm:p-8 lg:col-span-9 xl:col-span-10">
-                <AnimatePresence mode="wait">
+                <div>
                   {/* ==========================================
                       TAB 1: 資産サマリー (summary)
                   ========================================== */}
                   {activeTab === 'summary' ? (
-                    <motion.div
+                    <div
                       key="tab-summary"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.32, ease: 'easeOut' }}
-                      className="space-y-8"
+                      className="animate-hero-step-1 space-y-8"
                     >
                       {/* 上段: 資産残高の大きなタイポグラフィ & 主要KPI */}
                       <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-8">
@@ -666,25 +656,19 @@ export const DashboardMockup: React.FC = () => {
                                 fill="url(#xenithChampagneArea)"
                               />
 
-                              <motion.path
+                              <path
                                 d={netEquityLinePath}
                                 fill="none"
                                 stroke="#E0CFA7"
                                 strokeWidth="2"
                                 strokeDasharray="6 3"
-                                initial={{ pathLength: 0 }}
-                                animate={{ pathLength: 1 }}
-                                transition={{ duration: 0.9, ease: 'easeOut' }}
                               />
 
-                              <motion.path
+                              <path
                                 d={grossLinePath}
                                 fill="none"
                                 stroke="#C6A87C"
                                 strokeWidth="3"
-                                initial={{ pathLength: 0 }}
-                                animate={{ pathLength: 1 }}
-                                transition={{ duration: 0.9, ease: 'easeOut' }}
                               />
 
                               {grossCoords.map((coord, idx) => {
@@ -890,20 +874,16 @@ export const DashboardMockup: React.FC = () => {
                           </table>
                         </div>
                       </div>
-                    </motion.div>
+                    </div>
                   ) : null}
 
                   {/* ==========================================
                       TAB 2: 水面下物件フィード (feed)
                   ========================================== */}
                   {activeTab === 'feed' ? (
-                    <motion.div
+                    <div
                       key="tab-feed"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.32, ease: 'easeOut' }}
-                      className="space-y-6"
+                      className="animate-hero-step-1 space-y-6"
                     >
                       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-5">
                         <div>
@@ -1010,20 +990,16 @@ export const DashboardMockup: React.FC = () => {
                           </div>
                         ))}
                       </div>
-                    </motion.div>
+                    </div>
                   ) : null}
 
                   {/* ==========================================
                       TAB 3: 10年税務シミュレーター (tax-simulator)
                   ========================================== */}
                   {activeTab === 'tax-simulator' ? (
-                    <motion.div
+                    <div
                       key="tab-tax-simulator"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.32, ease: 'easeOut' }}
-                      className="space-y-8"
+                      className="animate-hero-step-1 space-y-8"
                     >
                       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-5">
                         <div>
@@ -1069,7 +1045,7 @@ export const DashboardMockup: React.FC = () => {
                         </div>
 
                         <div className="mt-6 grid grid-cols-5 gap-3 sm:grid-cols-10">
-                          {TEN_YEAR_TAX_BARS.map((bar, idx) => {
+                          {TEN_YEAR_TAX_BARS.map((bar) => {
                             const cashHeightPercent = Math.min(
                               100,
                               Math.round((bar.cumulativeNetCashMM / 350) * 100)
@@ -1083,28 +1059,16 @@ export const DashboardMockup: React.FC = () => {
                                   ¥{bar.cumulativeNetCashMM}M
                                 </span>
                                 <div className="my-2 flex h-28 w-full items-end justify-center gap-1 rounded bg-slate-950 p-1.5">
-                                  <motion.div
-                                    initial={{ height: 0 }}
-                                    animate={{
+                                  <div
+                                    style={{
                                       height: `${Math.round(bar.depreciationShieldMM * 3.5)}%`,
                                     }}
-                                    transition={{
-                                      duration: 0.5,
-                                      delay: idx * 0.04,
-                                      ease: 'easeOut',
-                                    }}
-                                    className="w-1/3 rounded-t bg-slate-600"
+                                    className="w-1/3 rounded-t bg-slate-600 transition-all duration-500 ease-out"
                                     title={`年間節税額: ¥${bar.depreciationShieldMM}M`}
                                   />
-                                  <motion.div
-                                    initial={{ height: 0 }}
-                                    animate={{ height: `${cashHeightPercent}%` }}
-                                    transition={{
-                                      duration: 0.6,
-                                      delay: idx * 0.04,
-                                      ease: 'easeOut',
-                                    }}
-                                    className="w-2/3 rounded-t bg-champagne-gold"
+                                  <div
+                                    style={{ height: `${cashHeightPercent}%` }}
+                                    className="w-2/3 rounded-t bg-champagne-gold transition-all duration-500 ease-out"
                                     title={`累計税引後キャッシュ: ¥${bar.cumulativeNetCashMM}M`}
                                   />
                                 </div>
@@ -1180,20 +1144,16 @@ export const DashboardMockup: React.FC = () => {
                           </table>
                         </div>
                       </div>
-                    </motion.div>
+                    </div>
                   ) : null}
 
                   {/* ==========================================
                       TAB 4 & 5: 電子契約・賃貸管理 / 出口売却シグナル
                   ========================================== */}
                   {activeTab === 'contracts' || activeTab === 'exit-signal' ? (
-                    <motion.div
+                    <div
                       key={`tab-${activeTab}`}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.32, ease: 'easeOut' }}
-                      className="space-y-6"
+                      className="animate-hero-step-1 space-y-6"
                     >
                       <div className="rounded-xl border border-custom-gold/40 bg-slate-950 p-8 text-center">
                         <span className="font-serif text-xs uppercase tracking-[0.24em] text-custom-gold">
@@ -1228,13 +1188,13 @@ export const DashboardMockup: React.FC = () => {
                           </button>
                         </div>
                       </div>
-                    </motion.div>
+                    </div>
                   ) : null}
-                </AnimatePresence>
+                </div>
               </div>
             </div>
           </GlassCard>
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   );

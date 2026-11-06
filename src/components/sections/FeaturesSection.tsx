@@ -1,34 +1,12 @@
 'use client';
 
 import React from 'react';
-import { motion, type Variants } from 'framer-motion';
 import { Cpu, LayoutDashboard, Scale } from 'lucide-react';
 import { FEATURE_CARDS } from '@/data/lpContentData';
 import { GlassCard } from '@/components/ui/GlassCard';
+import { Reveal } from '@/components/ui/Reveal';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import type { FeatureCardItem } from '@/types/xenith';
-
-const gridVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-    },
-  },
-};
-
-const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      ease: 'easeOut',
-    },
-  },
-};
 
 function renderFeatureIcon(iconName: FeatureCardItem['iconName']): React.JSX.Element {
   switch (iconName) {
@@ -59,15 +37,13 @@ export const FeaturesSection: React.FC = () => {
         />
 
         {/* 3カラムのカードグリッドUI (gap-8 lg:gap-12) */}
-        <motion.div
-          variants={gridVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.25 }}
-          className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-3 lg:mt-20 lg:gap-12"
-        >
-          {FEATURE_CARDS.map((feature) => (
-            <motion.div key={feature.id} variants={cardVariants} className="flex">
+        <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-3 lg:mt-20 lg:gap-12">
+          {FEATURE_CARDS.map((feature, index) => (
+            <Reveal
+              key={feature.id}
+              delayMs={index * 120}
+              className="flex"
+            >
               <GlassCard
                 as="article"
                 interactive
@@ -118,9 +94,9 @@ export const FeaturesSection: React.FC = () => {
                   </dd>
                 </dl>
               </GlassCard>
-            </motion.div>
+            </Reveal>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

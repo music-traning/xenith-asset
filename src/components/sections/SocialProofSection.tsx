@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
 import { PARTNER_BRAND_LOGOS } from '@/data/lpContentData';
+import { Reveal } from '@/components/ui/Reveal';
 
 export const SocialProofSection: React.FC = () => {
   return (
@@ -11,13 +11,7 @@ export const SocialProofSection: React.FC = () => {
       className="relative border-y border-slate-700/50 bg-slate-950 py-24 lg:py-28"
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
-        <motion.header
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="text-center"
-        >
+        <Reveal as="header" className="text-center">
           <p className="font-serif text-xs font-medium uppercase tracking-[0.28em] text-custom-gold">
             PROVEN TRACK RECORD &amp; ALLIANCE
           </p>
@@ -27,15 +21,13 @@ export const SocialProofSection: React.FC = () => {
           >
             上場企業役員・医師を中心に、累計取扱高500億円を突破。
           </h2>
-        </motion.header>
+        </Reveal>
 
         {/* メディア・提携プライベートバンク 5社横並びロゴリスト */}
-        <motion.ul
-          aria-label="掲載メディアおよび提携金融・税務機関"
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.8, delay: 0.15, ease: 'easeOut' }}
+        <Reveal
+          as="ul"
+          delayMs={120}
+          ariaLabel="掲載メディアおよび提携金融・税務機関"
           className="mt-12 grid grid-cols-1 items-center gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 lg:gap-8"
         >
           {PARTNER_BRAND_LOGOS.map((brand) => (
@@ -59,7 +51,7 @@ export const SocialProofSection: React.FC = () => {
               </span>
             </li>
           ))}
-        </motion.ul>
+        </Reveal>
       </div>
     </section>
   );

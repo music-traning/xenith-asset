@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowUpRight, Lock, Menu, ShieldCheck, X } from 'lucide-react';
 import { NAVIGATION_ITEMS } from '@/data/heroSimulationData';
 import { triggerApplicationModal } from '@/components/modals/ApplicationModal';
@@ -10,12 +9,19 @@ export const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
 
-  // 1-2. スクロール連動のグラスモーフィズム検知
+  // 強制リフローを避けるため、マウント直後の同期ジオメトリ読み取りを行わず passive scroll イベントのみで検知
   useEffect(() => {
+    let ticking = false;
     const handleScroll = (): void => {
-      setIsScrolled(window.scrollY > 12);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 12);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-    handleScroll();
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -53,7 +59,7 @@ export const Header: React.FC = () => {
         }`}
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-12">
-          {/* 1-1. ロゴ: モバイル(md未満)ではアイコン＋1行テキストのみに極限までミニマル化 */}
+          {/* ロゴ: モバイル(md未満)ではアイコン＋1行テキストのみ */}
           <a
             href="#"
             className="group flex items-center gap-3 focus:outline-none"
@@ -70,7 +76,6 @@ export const Header: React.FC = () => {
               <span className="font-serif text-base font-semibold tracking-[0.22em] text-slate-50 sm:text-lg">
                 XENITH ASSET
               </span>
-              {/* サブタイトルは md 以上の画面のみ表示し、モバイルでの縦延びを防止 */}
               <span className="hidden font-sans text-[10px] font-normal tracking-[0.18em] text-slate-400 md:block">
                 PRIVATE WEALTH QUANTITATIVE SaaS
               </span>
@@ -125,7 +130,7 @@ export const Header: React.FC = () => {
             </button>
           </div>
 
-          {/* 1-1. モバイル用ハンバーガーメニューアイコン (md未満のみ表示) */}
+          {/* モバイル用ハンバーガーメニューアイコン (md未満のみ表示) */}
           <button
             type="button"
             onClick={() => setIsMobileMenuOpen(true)}
@@ -139,95 +144,81 @@ export const Header: React.FC = () => {
         </div>
       </header>
 
-      {/* 1-3. フルスクリーン・オーバーレイメニュー（右から左へのスライドイン＆フェードイン） */}
-      <AnimatePresence>
-        {isMobileMenuOpen ? (
-          <motion.div
-            id="fullscreen-mobile-menu"
-            role="dialog"
-            aria-modal="true"
-            aria-label="モバイルフルスクリーンナビゲーション"
-            initial={{ opacity: 0, x: '100%' }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: '100%' }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 z-[90] flex flex-col justify-between bg-slate-950/95 px-6 py-6 backdrop-blur-xl md:hidden"
+      {/* フルスクリーン・オーバーレイメニュー（GPUアクセラレーションによる右から左へのスライドイン） */}
+      <div
+        id="fullscreen-mobile-menu"
+        role="dialog"
+        aria-modal="true"
+        aria-label="モバイルフルスクリーンナビゲーション"
+        aria-hidden={!isMobileMenuOpen}
+        className={`fixed inset-0 z-[90] flex flex-col justify-between bg-slate-950/95 px-6 py-6 backdrop-blur-xl transition-all duration-300 ease-out md:hidden ${
+          isMobileMenuOpen
+            ? ' pointer-events-auto translate-x-0 opacity-100'
+            : 'pointer-events-none translate-x-full opacity-0'
+        }`}
+      >
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute top-1/2 left-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-custom-gold/10 blur-[120px]"
+        />
+
+        <div className="relative z-10 flex items-center justify-between border-b border-white/10 pb-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-custom-gold/50 bg-slate-900">
+              <span className="font-serif text-lg font-semibold text-custom-gold-light">
+                X
+              </span>
+            </div>
+            <span className="font-serif text-base font-semibold tracking-[0.22em] text-slate-50">
+              XENITH ASSET
+            </span>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setIsMobileMenuOpen(false)}
+            aria-label="メニューを閉じる"
+            className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/15 bg-slate-900 text-slate-50 transition-colors hover:border-custom-gold"
           >
-            {/* 背景装飾ラジアルグロー */}
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute top-1/2 left-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-custom-gold/10 blur-[120px]"
-            />
+            <X className="h-5 w-5 text-custom-gold-light" />
+          </button>
+        </div>
 
-            {/* メニュー上部バー */}
-            <div className="relative z-10 flex items-center justify-between border-b border-white/10 pb-4">
-              <div className="flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-custom-gold/50 bg-slate-900">
-                  <span className="font-serif text-lg font-semibold text-custom-gold-light">
-                    X
-                  </span>
-                </div>
-                <span className="font-serif text-base font-semibold tracking-[0.22em] text-slate-50">
-                  XENITH ASSET
-                </span>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => setIsMobileMenuOpen(false)}
-                aria-label="メニューを閉じる"
-                className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/15 bg-slate-900 text-slate-50 transition-colors hover:border-custom-gold"
-              >
-                <X className="h-5 w-5 text-custom-gold-light" />
-              </button>
-            </div>
-
-            {/* 中央揃え・大型 serif タイポグラフィによるメニューリスト */}
-            <nav
-              aria-label="モバイルナビゲーション"
-              className="relative z-10 my-auto flex flex-col items-center justify-center space-y-7 text-center"
+        <nav
+          aria-label="モバイルナビゲーション"
+          className="relative z-10 my-auto flex flex-col items-center justify-center space-y-7 text-center"
+        >
+          {NAVIGATION_ITEMS.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              onClick={handleMobileNavClick}
+              className="group flex flex-col items-center"
             >
-              {NAVIGATION_ITEMS.map((item, index) => (
-                <motion.a
-                  key={item.href}
-                  href={item.href}
-                  onClick={handleMobileNavClick}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.4,
-                    delay: 0.1 + index * 0.06,
-                    ease: 'easeOut',
-                  }}
-                  className="group flex flex-col items-center"
-                >
-                  <span className="font-serif text-xs tracking-[0.28em] text-custom-gold">
-                    {item.labelEn}
-                  </span>
-                  <span className="mt-1 font-serif text-2xl font-medium tracking-wider text-slate-50 transition-colors duration-300 group-hover:text-custom-gold-light sm:text-3xl">
-                    {item.labelJa}
-                  </span>
-                </motion.a>
-              ))}
-            </nav>
+              <span className="font-serif text-xs tracking-[0.28em] text-custom-gold">
+                {item.labelEn}
+              </span>
+              <span className="mt-1 font-serif text-2xl font-medium tracking-wider text-slate-50 transition-colors duration-300 group-hover:text-custom-gold-light sm:text-3xl">
+                {item.labelJa}
+              </span>
+            </a>
+          ))}
+        </nav>
 
-            {/* フルスクリーンメニュー下部: 審査申請CTA */}
-            <div className="relative z-10 border-t border-white/10 pt-6 text-center">
-              <button
-                type="button"
-                onClick={handleOpenApplicationModal}
-                className="inline-flex w-full items-center justify-center gap-3 rounded-xl border border-custom-gold-light/40 bg-custom-gold px-6 py-4 font-sans text-sm font-semibold tracking-wider text-slate-950 shadow-gold-glow transition-all duration-300 hover:bg-custom-gold-light"
-              >
-                <Lock className="h-4 w-4" aria-hidden="true" />
-                <span>【完全審査制】アクセス権を申請する</span>
-              </button>
-              <p className="mt-3 font-sans text-[11px] text-slate-400">
-                年収3,000万円以上・金融資産1億円以上 / 完全招待制
-              </p>
-            </div>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
+        <div className="relative z-10 border-t border-white/10 pt-6 text-center">
+          <button
+            type="button"
+            onClick={handleOpenApplicationModal}
+            className="inline-flex w-full items-center justify-center gap-3 rounded-xl border border-custom-gold-light/40 bg-custom-gold px-6 py-4 font-sans text-sm font-semibold tracking-wider text-slate-950 shadow-gold-glow transition-all duration-300 hover:bg-custom-gold-light"
+          >
+            <Lock className="h-4 w-4" aria-hidden="true" />
+            <span>【完全審査制】アクセス権を申請する</span>
+          </button>
+          <p className="mt-3 font-sans text-[11px] text-slate-400">
+            年収3,000万円以上・金融資産1億円以上 / 完全招待制
+          </p>
+        </div>
+      </div>
     </>
   );
 };

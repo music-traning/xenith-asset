@@ -1,54 +1,6 @@
 import type { Metadata, Viewport } from 'next';
-import {
-  Cormorant_Garamond,
-  Inter,
-  Noto_Sans_JP,
-  Noto_Serif_JP,
-} from 'next/font/google';
+import { JapaneseFontLoader } from '@/components/layout/JapaneseFontLoader';
 import './globals.css';
-
-/**
- * 4-2. Heading (見出し): Cormorant Garamond (英数字) / Weight: Medium (500), SemiBold (600)
- */
-const cormorantGaramond = Cormorant_Garamond({
-  subsets: ['latin'],
-  weight: ['500', '600'],
-  style: ['normal', 'italic'],
-  variable: '--font-cormorant',
-  display: 'swap',
-});
-
-/**
- * 4-2. Heading (見出し): Noto Serif JP (日本語) / Weight: Medium (500), SemiBold (600)
- */
-const notoSerifJP = Noto_Serif_JP({
-  subsets: ['latin'],
-  weight: ['500', '600'],
-  variable: '--font-noto-serif',
-  display: 'swap',
-  preload: false,
-});
-
-/**
- * 4-2. Body (本文・データ): Inter (英数字) / Weight: Regular (400), Medium (500)
- */
-const inter = Inter({
-  subsets: ['latin'],
-  weight: ['400', '500'],
-  variable: '--font-inter',
-  display: 'swap',
-});
-
-/**
- * 4-2. Body (本文・データ): Noto Sans JP (日本語) / Weight: Regular (400), Medium (500)
- */
-const notoSansJP = Noto_Sans_JP({
-  subsets: ['latin'],
-  weight: ['400', '500'],
-  variable: '--font-noto-sans',
-  display: 'swap',
-  preload: false,
-});
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
   ? process.env.NEXT_PUBLIC_SITE_URL
@@ -148,9 +100,18 @@ export default function RootLayout({
   return (
     <html
       lang="ja"
-      className={`${cormorantGaramond.variable} ${notoSerifJP.variable} ${inter.variable} ${notoSansJP.variable} dark`}
+      className="dark"
     >
+      <head>
+        <link
+          rel="preload"
+          as="image"
+          href="/mv.jpg"
+          fetchPriority="high"
+        />
+      </head>
       <body className="min-h-screen bg-slate-900 font-sans font-normal text-slate-50 antialiased">
+        <JapaneseFontLoader />
         {children}
       </body>
     </html>

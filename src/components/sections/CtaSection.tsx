@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import { ArrowRight, Lock, PhoneOff, ShieldCheck } from 'lucide-react';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { GoldButton } from '@/components/ui/GoldButton';
 import { ApplicationModal } from '@/components/modals/ApplicationModal';
+import { Reveal } from '@/components/ui/Reveal';
 
 export const CtaSection: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -26,12 +26,7 @@ export const CtaSection: React.FC = () => {
       </div>
 
       <div className="relative z-10 mx-auto max-w-4xl px-6 text-center lg:px-12">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
-        >
+        <Reveal>
           <GlassCard
             as="article"
             className="border-custom-gold/40 px-6 py-16 sm:px-14 sm:py-20"
@@ -95,7 +90,7 @@ export const CtaSection: React.FC = () => {
               </li>
             </ul>
           </GlassCard>
-        </motion.div>
+        </Reveal>
       </div>
 
       {/* Phase 3: 完全審査制申し込みフォームモーダル */}

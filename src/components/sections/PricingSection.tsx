@@ -1,11 +1,11 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
 import { ArrowUpRight, Check, Crown, ShieldCheck } from 'lucide-react';
 import { INVITATION_PRICING_PLANS } from '@/data/lpContentData';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { GoldButton } from '@/components/ui/GoldButton';
+import { Reveal } from '@/components/ui/Reveal';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { triggerApplicationModal } from '@/components/modals/ApplicationModal';
 
@@ -30,16 +30,9 @@ export const PricingSection: React.FC = () => {
           {INVITATION_PRICING_PLANS.map((plan, index) => {
             const isHighlighted = plan.isHighlighted;
             return (
-              <motion.div
+              <Reveal
                 key={plan.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.25 }}
-                transition={{
-                  duration: 0.8,
-                  delay: index * 0.15,
-                  ease: 'easeOut',
-                }}
+                delayMs={index * 150}
                 className="flex"
               >
                 <GlassCard
@@ -156,7 +149,7 @@ export const PricingSection: React.FC = () => {
                     </GoldButton>
                   </div>
                 </GlassCard>
-              </motion.div>
+              </Reveal>
             );
           })}
         </div>
