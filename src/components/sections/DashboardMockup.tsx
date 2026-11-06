@@ -6,10 +6,7 @@ import {
   Activity,
   ArrowUpRight,
   Building,
-  CheckCircle2,
-  Clock,
   Download,
-  FileCheck2,
   FolderKanban,
   Layers,
   Lock,
@@ -27,7 +24,6 @@ import {
 } from '@/data/lpContentData';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { SectionHeading } from '@/components/ui/SectionHeading';
-import { Reveal } from '@/components/ui/Reveal';
 import { triggerApplicationModal } from '@/components/modals/ApplicationModal';
 import type { TransactionStatus } from '@/types/xenith';
 
@@ -222,16 +218,19 @@ function renderStatusBadge(status: TransactionStatus): React.JSX.Element {
     case 'COMPLETED':
       return (
         <span className="inline-flex items-center gap-1.5 rounded-full border border-custom-gold/50 bg-custom-gold/15 px-2.5 py-0.5 font-sans text-[11px] font-medium text-custom-gold-light">
-          <CheckCircle2 className="h-3 w-3 text-custom-gold" aria-hidden="true" />
+          <span
+            aria-hidden="true"
+            className="h-1.5 w-1.5 rounded-full bg-custom-gold"
+          />
           決済・登記完了
         </span>
       );
     case 'AUDIT_VERIFIED':
       return (
         <span className="inline-flex items-center gap-1.5 rounded-full border border-custom-gold-light/50 bg-custom-gold/20 px-2.5 py-0.5 font-sans text-[11px] font-medium text-slate-50">
-          <FileCheck2
-            className="h-3 w-3 text-custom-gold-light"
+          <span
             aria-hidden="true"
+            className="h-1.5 w-1.5 rounded-full bg-custom-gold-light"
           />
           税理士監査済
         </span>
@@ -239,7 +238,10 @@ function renderStatusBadge(status: TransactionStatus): React.JSX.Element {
     case 'ESCROW_LOCKED':
       return (
         <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-700 bg-slate-800/80 px-2.5 py-0.5 font-sans text-[11px] font-normal text-slate-400">
-          <Clock className="h-3 w-3 text-custom-gold" aria-hidden="true" />
+          <span
+            aria-hidden="true"
+            className="h-1.5 w-1.5 rounded-full bg-custom-gold/70"
+          />
           独占交渉ロック中
         </span>
       );
@@ -321,11 +323,10 @@ export const DashboardMockup: React.FC = () => {
         />
 
         {/* SaaS ダッシュボード画面モックアップ本体 */}
-        <Reveal delayMs={150} className="mt-14 lg:mt-20">
-          <GlassCard
-            as="article"
-            className="overflow-hidden border-slate-700/50 bg-slate-800/40"
-          >
+        <GlassCard
+          as="article"
+          className="mt-14 overflow-hidden border-slate-700/50 bg-slate-800/40 lg:mt-20"
+        >
             {/* アプリケーション・トップバー */}
             <header className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-700/50 bg-slate-950 px-5 py-4 font-sans sm:px-6">
               <div className="flex items-center gap-3">
@@ -471,14 +472,13 @@ export const DashboardMockup: React.FC = () => {
 
               {/* Phase 2-3: 右側メインエリア（CSSアニメーションによる動的コンテンツ切り替え） */}
               <div className="min-h-[680px] p-5 font-sans sm:p-8 lg:col-span-9 xl:col-span-10">
-                <div>
                   {/* ==========================================
                       TAB 1: 資産サマリー (summary)
                   ========================================== */}
                   {activeTab === 'summary' ? (
                     <div
                       key="tab-summary"
-                      className="animate-hero-step-1 space-y-8"
+                      className="space-y-8"
                     >
                       {/* 上段: 資産残高の大きなタイポグラフィ & 主要KPI */}
                       <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-8">
@@ -605,57 +605,53 @@ export const DashboardMockup: React.FC = () => {
                         </figcaption>
 
                         <div className="mt-6 overflow-x-auto">
-                          <div className="min-w-[640px]">
-                            <svg
-                              viewBox={`0 0 ${CHART_WIDTH} ${CHART_HEIGHT}`}
-                              className="h-60 w-full overflow-visible"
-                              role="img"
-                              aria-label="2021年第4四半期から2026年第3四半期までの総資産評価額および税引後純資産の推移を示す折れ線グラフ"
-                            >
-                              <defs>
-                                <linearGradient
-                                  id="xenithChampagneArea"
-                                  x1="0"
-                                  y1="0"
-                                  x2="0"
-                                  y2="1"
-                                >
-                                  <stop
-                                    offset="0%"
-                                    stopColor="#C6A87C"
-                                    stopOpacity="0.32"
-                                  />
-                                  <stop
-                                    offset="100%"
-                                    stopColor="#C6A87C"
-                                    stopOpacity="0.0"
-                                  />
-                                </linearGradient>
-                              </defs>
+                          <svg
+                            viewBox={`0 0 ${CHART_WIDTH} ${CHART_HEIGHT}`}
+                            className="h-60 min-w-[640px] w-full overflow-visible"
+                            role="img"
+                            aria-label="2021年第4四半期から2026年第3四半期までの総資産評価額および税引後純資産の推移を示す折れ線グラフ"
+                          >
+                            <defs>
+                              <linearGradient
+                                id="xenithChampagneArea"
+                                x1="0"
+                                y1="0"
+                                x2="0"
+                                y2="1"
+                              >
+                                <stop
+                                  offset="0%"
+                                  stopColor="#C6A87C"
+                                  stopOpacity="0.32"
+                                />
+                                <stop
+                                  offset="100%"
+                                  stopColor="#C6A87C"
+                                  stopOpacity="0.0"
+                                />
+                              </linearGradient>
+                            </defs>
 
-                              {[0.2, 0.45, 0.7, 0.9].map((ratio, idx) => {
-                                const y =
-                                  PADDING_Y +
-                                  ratio * (CHART_HEIGHT - PADDING_Y * 2);
-                                return (
-                                  <line
-                                    key={idx}
-                                    x1={PADDING_X}
-                                    y1={y}
-                                    x2={CHART_WIDTH - PADDING_X}
-                                    y2={y}
-                                    stroke="#1e293b"
-                                    strokeDasharray="4 4"
-                                    strokeWidth="1"
-                                  />
-                                );
-                              })}
-
+                            <g aria-hidden="true">
+                              <path
+                                d={[0.2, 0.45, 0.7, 0.9]
+                                  .map((ratio) => {
+                                    const y = (
+                                      PADDING_Y +
+                                      ratio * (CHART_HEIGHT - PADDING_Y * 2)
+                                    ).toFixed(1);
+                                    return `M ${PADDING_X} ${y} L ${CHART_WIDTH - PADDING_X} ${y}`;
+                                  })
+                                  .join(' ')}
+                                stroke="#1e293b"
+                                strokeDasharray="4 4"
+                                strokeWidth="1"
+                                fill="none"
+                              />
                               <path
                                 d={grossAreaPath}
                                 fill="url(#xenithChampagneArea)"
                               />
-
                               <path
                                 d={netEquityLinePath}
                                 fill="none"
@@ -663,14 +659,15 @@ export const DashboardMockup: React.FC = () => {
                                 strokeWidth="2"
                                 strokeDasharray="6 3"
                               />
-
                               <path
                                 d={grossLinePath}
                                 fill="none"
                                 stroke="#C6A87C"
                                 strokeWidth="3"
                               />
+                            </g>
 
+                            <g>
                               {grossCoords.map((coord, idx) => {
                                 const netCoord = netEquityCoords[idx];
                                 const dataItem = PORTFOLIO_CHART_DATA[idx];
@@ -734,8 +731,8 @@ export const DashboardMockup: React.FC = () => {
                                   </g>
                                 );
                               })}
-                            </svg>
-                          </div>
+                            </g>
+                          </svg>
                         </div>
                       </figure>
 
@@ -1190,11 +1187,9 @@ export const DashboardMockup: React.FC = () => {
                       </div>
                     </div>
                   ) : null}
-                </div>
               </div>
             </div>
-          </GlassCard>
-        </Reveal>
+        </GlassCard>
       </div>
     </section>
   );

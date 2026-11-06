@@ -144,81 +144,78 @@ export const Header: React.FC = () => {
         </div>
       </header>
 
-      {/* フルスクリーン・オーバーレイメニュー（GPUアクセラレーションによる右から左へのスライドイン） */}
-      <div
-        id="fullscreen-mobile-menu"
-        role="dialog"
-        aria-modal="true"
-        aria-label="モバイルフルスクリーンナビゲーション"
-        aria-hidden={!isMobileMenuOpen}
-        className={`fixed inset-0 z-[90] flex flex-col justify-between bg-slate-950/95 px-6 py-6 backdrop-blur-xl transition-all duration-300 ease-out md:hidden ${
-          isMobileMenuOpen
-            ? ' pointer-events-auto translate-x-0 opacity-100'
-            : 'pointer-events-none translate-x-full opacity-0'
-        }`}
-      >
+      {/* フルスクリーン・オーバーレイメニュー（開いている時のみDOMマウントし初期DOMサイズを削減） */}
+      {isMobileMenuOpen ? (
         <div
-          aria-hidden="true"
-          className="pointer-events-none absolute top-1/2 left-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-custom-gold/10 blur-[120px]"
-        />
+          id="fullscreen-mobile-menu"
+          role="dialog"
+          aria-modal="true"
+          aria-label="モバイルフルスクリーンナビゲーション"
+          className="fixed inset-0 z-[90] flex flex-col justify-between bg-slate-950/95 px-6 py-6 backdrop-blur-xl md:hidden"
+        >
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute top-1/2 left-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-custom-gold/10 blur-[120px]"
+          />
 
-        <div className="relative z-10 flex items-center justify-between border-b border-white/10 pb-4">
-          <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-custom-gold/50 bg-slate-900">
-              <span className="font-serif text-lg font-semibold text-custom-gold-light">
-                X
+          <div className="relative z-10 flex items-center justify-between border-b border-white/10 pb-4">
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-custom-gold/50 bg-slate-900">
+                <span className="font-serif text-lg font-semibold text-custom-gold-light">
+                  X
+                </span>
+              </div>
+              <span className="font-serif text-base font-semibold tracking-[0.22em] text-slate-50">
+                XENITH ASSET
               </span>
             </div>
-            <span className="font-serif text-base font-semibold tracking-[0.22em] text-slate-50">
-              XENITH ASSET
-            </span>
+
+            <button
+              type="button"
+              onClick={() => setIsMobileMenuOpen(false)}
+              aria-label="メニューを閉じる"
+              className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/15 bg-slate-900 text-slate-50 transition-colors hover:border-custom-gold"
+            >
+              <X className="h-5 w-5 text-custom-gold-light" />
+            </button>
           </div>
 
-          <button
-            type="button"
-            onClick={() => setIsMobileMenuOpen(false)}
-            aria-label="メニューを閉じる"
-            className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/15 bg-slate-900 text-slate-50 transition-colors hover:border-custom-gold"
+          <nav
+            aria-label="モバイルナビゲーション"
+            className="relative z-10 my-auto flex flex-col items-center justify-center space-y-7 text-center"
           >
-            <X className="h-5 w-5 text-custom-gold-light" />
-          </button>
-        </div>
+            {NAVIGATION_ITEMS.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={handleMobileNavClick}
+                className="group flex flex-col items-center"
+              >
+                <span className="font-serif text-xs tracking-[0.28em] text-custom-gold">
+                  {item.labelEn}
+                </span>
+                <span className="mt-1 font-serif text-2xl font-medium tracking-wider text-slate-50 transition-colors duration-300 group-hover:text-custom-gold-light sm:text-3xl">
+                  {item.labelJa}
+                </span>
+              </a>
+            ))}
+          </nav>
 
-        <nav
-          aria-label="モバイルナビゲーション"
-          className="relative z-10 my-auto flex flex-col items-center justify-center space-y-7 text-center"
-        >
-          {NAVIGATION_ITEMS.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              onClick={handleMobileNavClick}
-              className="group flex flex-col items-center"
+          <div className="relative z-10 border-t border-white/10 pt-6 text-center">
+            <button
+              type="button"
+              onClick={handleOpenApplicationModal}
+              className="inline-flex w-full items-center justify-center gap-3 rounded-xl border border-custom-gold-light/40 bg-custom-gold px-6 py-4 font-sans text-sm font-semibold tracking-wider text-slate-950 shadow-gold-glow transition-all duration-300 hover:bg-custom-gold-light"
             >
-              <span className="font-serif text-xs tracking-[0.28em] text-custom-gold">
-                {item.labelEn}
-              </span>
-              <span className="mt-1 font-serif text-2xl font-medium tracking-wider text-slate-50 transition-colors duration-300 group-hover:text-custom-gold-light sm:text-3xl">
-                {item.labelJa}
-              </span>
-            </a>
-          ))}
-        </nav>
-
-        <div className="relative z-10 border-t border-white/10 pt-6 text-center">
-          <button
-            type="button"
-            onClick={handleOpenApplicationModal}
-            className="inline-flex w-full items-center justify-center gap-3 rounded-xl border border-custom-gold-light/40 bg-custom-gold px-6 py-4 font-sans text-sm font-semibold tracking-wider text-slate-950 shadow-gold-glow transition-all duration-300 hover:bg-custom-gold-light"
-          >
-            <Lock className="h-4 w-4" aria-hidden="true" />
-            <span>【完全審査制】アクセス権を申請する</span>
-          </button>
-          <p className="mt-3 font-sans text-[11px] text-slate-400">
-            年収3,000万円以上・金融資産1億円以上 / 完全招待制
-          </p>
+              <Lock className="h-4 w-4" aria-hidden="true" />
+              <span>【完全審査制】アクセス権を申請する</span>
+            </button>
+            <p className="mt-3 font-sans text-[11px] text-slate-400">
+              年収3,000万円以上・金融資産1億円以上 / 完全招待制
+            </p>
+          </div>
         </div>
-      </div>
+      ) : null}
     </>
   );
 };

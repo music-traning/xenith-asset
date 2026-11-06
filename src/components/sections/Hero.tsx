@@ -41,7 +41,7 @@ export const Hero: React.FC = () => {
       <div className="relative z-10 mx-auto w-full max-w-5xl px-6 text-center lg:px-12">
         <div className="flex flex-col items-center">
           {/* ステータス・アイブロウバッジ */}
-          <div className="animate-hero-step-1 mb-8">
+          <div className="mb-8">
             <div className="inline-flex items-center gap-2.5 rounded-full border border-custom-gold/40 bg-slate-900/60 px-4 py-1.5 shadow-glass backdrop-blur-md">
               <Lock
                 className="h-3.5 w-3.5 text-custom-gold"
@@ -53,10 +53,10 @@ export const Hero: React.FC = () => {
             </div>
           </div>
 
-          {/* 2. 見出し (h1): LCP対象要素 — 初期フレームから即時描画 */}
+          {/* 2. 見出し (h1): LCP対象要素 — アニメーション待機ゼロで初回ペイント時に即時確定 */}
           <h1
             id="hero-heading"
-            className="animate-hero-step-1 max-w-4xl font-serif text-3xl font-semibold leading-relaxed tracking-wide text-slate-50 sm:text-4xl md:text-5xl lg:text-[3.25rem] lg:leading-[1.42]"
+            className="max-w-4xl font-serif text-3xl font-semibold leading-relaxed tracking-wide text-slate-50 sm:text-4xl md:text-5xl lg:text-[3.25rem] lg:leading-[1.42]"
           >
             資産を<span className="text-custom-gold-light">「守る」</span>から
             <span className="text-custom-gold-light">「創る」</span>へ。
@@ -68,16 +68,16 @@ export const Hero: React.FC = () => {
           {/* 装飾セパレーター */}
           <div
             aria-hidden="true"
-            className="animate-hero-step-2 my-8 h-[1px] w-24 bg-gradient-to-r from-transparent via-custom-gold/70 to-transparent"
+            className="my-8 h-[1px] w-24 bg-gradient-to-r from-transparent via-custom-gold/70 to-transparent"
           />
 
           {/* 2. サブテキスト (p) */}
-          <p className="animate-hero-step-2 max-w-2xl font-sans text-base font-normal leading-relaxed tracking-wide text-slate-300 sm:text-lg md:text-xl md:leading-[1.9]">
+          <p className="max-w-2xl font-sans text-base font-normal leading-relaxed tracking-wide text-slate-300 sm:text-lg md:text-xl md:leading-[1.9]">
             AIによる非公開物件のスコアリングと、税務最適化アルゴリズム。論理とデータが導き出す、資産防衛の最終解。
           </p>
 
           {/* 4. CTAボタン: custom-gold (#C6A87C) 基調 + scale-105 + リッチなゴールドシャドウ + 矢印スライド */}
-          <div className="animate-hero-step-3 mt-12">
+          <div className="mt-12">
             <button
               type="button"
               onClick={triggerApplicationModal}
@@ -95,7 +95,7 @@ export const Hero: React.FC = () => {
           {/* 補足トラスト・ガバナンス指標 */}
           <ul
             aria-label="会員審査基準およびプライバシーポリシー"
-            className="animate-hero-step-4 mt-12 flex flex-wrap items-center justify-center gap-y-3 gap-x-8 border-t border-slate-700/50 pt-6 font-sans text-xs font-normal tracking-wide text-slate-400"
+            className="mt-12 flex flex-wrap items-center justify-center gap-y-3 gap-x-8 border-t border-slate-700/50 pt-6 font-sans text-xs font-normal tracking-wide text-slate-400"
           >
             <li className="flex items-center gap-2">
               <ShieldCheck

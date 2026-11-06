@@ -36,7 +36,9 @@ export const JapaneseFontLoader = (): null => {
       'scroll',
       'mousemove',
       'touchstart',
+      'pointerdown',
       'keydown',
+      'wheel',
     ];
 
     const onUserInteraction = (): void => {
@@ -53,11 +55,7 @@ export const JapaneseFontLoader = (): null => {
       })
     );
 
-    // ユーザー操作がない場合でもLCP計測完了後にバックグラウンド読込
-    const timerId = window.setTimeout(loadJapaneseFonts, 4000);
-
     return () => {
-      window.clearTimeout(timerId);
       events.forEach((evt) =>
         window.removeEventListener(evt, onUserInteraction)
       );

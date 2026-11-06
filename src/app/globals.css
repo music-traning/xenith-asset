@@ -29,6 +29,13 @@
   h3 {
     @apply font-serif font-semibold tracking-tight text-slate-50;
   }
+
+  /* ファーストビュー以外のセクションを遅延レンダリングし、初期リフロー時間を劇的に削減 */
+  main > section:not(:first-of-type),
+  footer {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 720px;
+  }
 }
 
 @keyframes heroSlideUp {

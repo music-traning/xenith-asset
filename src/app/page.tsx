@@ -17,7 +17,7 @@ import { SocialProofSection } from '@/components/sections/SocialProofSection';
  */
 export default function HomePage(): React.JSX.Element {
   return (
-    <div className="relative min-h-screen bg-slate-900 font-sans font-normal text-slate-50">
+    <>
       <Header />
       <main>
         {/* 3-1. Hero Section (FV：ファーストビュー) */}
@@ -45,6 +45,6 @@ export default function HomePage(): React.JSX.Element {
         <CtaSection />
       </main>
       <Footer />
-    </div>
+    </>
   );
 }
